@@ -3,7 +3,7 @@ import java.util.ArrayList;
 
 public class generateCSV {
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        ArrayList dataToWrite = new ArrayList<>();
+        ArrayList<String> dataToWrite = new ArrayList<String>();
 
         String path="./";
         String samp1="sample_file_1.csv";
