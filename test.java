@@ -1,15 +1,17 @@
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class test {
 
     @Test
     @DisplayName("Check Account Numbers tally across the board so no swapping occurs")
-    public static void assertNoSwappingID() throws IOException {
+    static void assertNoSwappingID() throws IOException {
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -37,7 +39,7 @@ public class test {
 
     @Test
     @DisplayName("Check Account Numbers tally across the board so no swapping occurs")
-    public static void assertNoSwappingAccount() throws IOException {
+    static void assertNoSwappingAccount() throws IOException {
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -61,7 +63,7 @@ public class test {
 
     @Test
     @DisplayName("Check Equal Column Headers")
-    public static void assertHeaders() throws IOException {
+    static void assertHeaders() throws IOException {
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -83,9 +85,14 @@ public class test {
         }
     }
 
-    @Test
+    @ParameterizedTest
     @DisplayName("Check Equal Number of Rows")
-    public static void assertNoRows() throws IOException {
+    static void assertNoRows() throws IOException {
+
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Enter a number (checks if number is either over or under the size of the csv file):");
+        int numberToCheck= sc.nextInt();
+
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -107,14 +114,21 @@ public class test {
             counter2 = counter2 + 1;
         }
 
-
-
-        Assertions.assertEquals(counter1, counter2, () -> "Assert Test Pass");
+        if (numberToCheck < counter1 || numberToCheck < counter2) {
+            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
+            System.out.println("Assertion failed as it is under the total rows");
+        } else if (numberToCheck > counter1 || numberToCheck > counter2) {
+            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
+            System.out.println("Assertion failed as it is over the total rows");
+        } else {
+            Assertions.assertEquals(counter1, counter2, () -> "Assert Test Pass");
+            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
+        }
     }
 
     @Test
     @DisplayName("Check Equal Number of Rows + 1 for one of them")
-    public static void assertNoRowsPlusOne() throws IOException {
+    static void assertNoRowsPlusOne() throws IOException {
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -148,7 +162,7 @@ public class test {
 
     @Test
     @DisplayName("Check Equal Number of Rows - 1 for one of them")
-    public static void assertNoRowsMinusOne() throws IOException {
+    static void assertNoRowsMinusOne() throws IOException {
         String path = "./";
         String samp1 = "f1.csv";
         String samp3 = "f3.csv";
@@ -207,7 +221,7 @@ public class test {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    static void main(String[] args) throws IOException {
 
         /*Testing to check boundary values and equivalence*/
         test.assertHeaders();
