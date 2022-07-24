@@ -1,11 +1,9 @@
 import java.io.*;
 import java.util.ArrayList;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 
 public class generateCSV {
     public static void main(String[] args) throws IOException {
+
         ArrayList<String> dataToWrite = new ArrayList<String>();
 
         String path = "./";
