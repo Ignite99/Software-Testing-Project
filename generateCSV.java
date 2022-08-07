@@ -1,24 +1,33 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.RandomAccess;
+import java.util.Scanner;
+
 
 public class generateCSV {
+    private String input1;
+    private String input2;
+
+    void inp(String input1, String input2) {
+        this.input1 = input1;
+        this.input2 = input2;
+    }
+
     public static void main(String[] args) throws IOException {
         ArrayList<String> dataToWrite = new ArrayList<String>();
+        generateCSV newInputs = new generateCSV();
 
         String path = "./";
-        String samp1 = "f1.csv";
-        String samp2 = "f2.csv";
-        String samp3 = "f3.csv";
+        newInputs.inp("f1.csv", "f3.csv");
 
-        BufferedReader c1 = new BufferedReader(new FileReader(path + samp1));
-        BufferedReader c2 = new BufferedReader(new FileReader(path + samp2));
-        BufferedReader c3 = new BufferedReader(new FileReader(path + samp3));
+        String first = newInputs.input1;
+        String second = newInputs.input2;
+
+        BufferedReader c1 = new BufferedReader(new FileReader(path + first));
+        BufferedReader c2 = new BufferedReader(new FileReader(path + second));
 
         //enter while loop with the column header being first to parse iin
         String row1 = c1.readLine();
         String row2 = c2.readLine();
-        String row3 = c3.readLine();
 
         //Debugging purposes
         Integer counter = 0;
@@ -27,10 +36,9 @@ public class generateCSV {
             //split rows by comma, making checking of each column value per ID easier
             String[] ind1 = row1.split(",");
             String[] ind2 = row2.split(",");
-            String[] ind3 = row3.split(",");
 
 
-            if (row1 != row2 || row1 != row3 || row2 != row3) {
+            if (row1 != row2) {
                 // checks if account no. is the same
 
                 if (ind1[1].equals(ind2[1])) {
@@ -42,22 +50,6 @@ public class generateCSV {
                         dataToWrite.add(convertToString1);
                         dataToWrite.add(convertToString2);
                     }
-                } else if (ind1[1].equals(ind3[1])) {
-                    if (!ind1[2].equals(ind3[2]) || !ind1[3].equals(ind3[3]) || !ind1[4].equals(ind3[4])) {
-                        String convertToString1 = String.join(",", ind1);
-                        String convertToString3 = String.join(",", ind3);
-
-                        dataToWrite.add(convertToString1);
-                        dataToWrite.add(convertToString3);
-                    }
-                } else if (ind2[1].equals(ind3[1])) {
-                    if (!ind2[2].equals(ind3[2]) || !ind2[3].equals(ind3[3]) || !ind2[4].equals(ind3[4])) {
-                        String convertToString2 = String.join(",", ind2);
-                        String convertToString3 = String.join(",", ind3);
-
-                        dataToWrite.add(convertToString2);
-                        dataToWrite.add(convertToString3);
-                    }
                 }
             }
 
@@ -66,7 +58,6 @@ public class generateCSV {
             //reads next line for all csvs
             row1 = c1.readLine();
             row2 = c2.readLine();
-            row3 = c3.readLine();
 
         }
 

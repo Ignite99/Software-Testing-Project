@@ -12,7 +12,7 @@ import java.util.Scanner;
 public class test {
     @Test
     @DisplayName("Check random rowCount")
-    void fuzzing() throws IOException {
+    static void fuzzing() throws IOException {
 
         // 10 instances of fuzzing
         for (int i = 0; i < 0; i++) {
@@ -222,8 +222,14 @@ public class test {
         }
     }
 
+    public static void testingPurposes() {
+        generateCSV testing = new generateCSV();
+        testing.inp("f1.csv", "f3.csv");
+    }
+
 
     static void main(String[] args) throws IOException {
+
 
         /*Testing to check boundary values and equivalence*/
 //        test.assertHeaders();
@@ -233,5 +239,6 @@ public class test {
 //        test.assertNoSwappingID();
 //        test.assertOutputAccount();
         /*After this, main function will be executed.*/
+
     }
 }
