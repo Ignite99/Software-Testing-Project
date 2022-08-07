@@ -2,12 +2,53 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class test {
+    @Test
+    @DisplayName("Check random rowCount")
+    void fuzzing() throws IOException {
+
+        // 10 instances of fuzzing
+        for (int i = 0; i < 0; i++) {
+
+            ArrayList<String> data = new ArrayList<String>();
+
+            Random rand = new Random();
+            int n = rand.nextInt(2000);
+            System.out.println(n);
+
+            String path = "./";
+            String samp1 = "f1.csv";
+            String samp3 = "f3.csv";
+
+            BufferedReader c1 = new BufferedReader(new FileReader(path + samp1));
+            BufferedReader c3 = new BufferedReader(new FileReader(path + samp3));
+            String row1 = c1.readLine();
+            String row3 = c3.readLine();
+
+            while (row1 != null || row3 != null) {
+                //Append to array list
+                data.add(row1);
+                data.add(row3);
+                row1 = c1.readLine();
+                row3 = c3.readLine();
+            }
+
+            if (n>=1000) {
+                String test = data.get(n);
+                Assertions.assertEquals(test, null, () -> "Assert Test Pass" );
+            } else {
+                String test = data.get(n);
+                Assertions.assertNotEquals(test, null, () -> "Assert Test Pass");
+            }
+        }
+    }
 
     @Test
     @DisplayName("Check Account Numbers tally across the board so no swapping occurs")
@@ -85,47 +126,6 @@ public class test {
         }
     }
 
-    @ParameterizedTest
-    @DisplayName("Check Equal Number of Rows")
-    static void assertNoRows() throws IOException {
-
-        Scanner sc= new Scanner(System.in);
-        System.out.print("Enter a number (checks if number is either over or under the size of the csv file):");
-        int numberToCheck= sc.nextInt();
-
-        String path = "./";
-        String samp1 = "f1.csv";
-        String samp3 = "f3.csv";
-        BufferedReader c1 = new BufferedReader(new FileReader(path + samp1));
-        BufferedReader c3 = new BufferedReader(new FileReader(path + samp3));
-
-        String row1 = c1.readLine();
-        String row3 = c3.readLine();
-
-        Integer counter1 = 0;
-        Integer counter2 = 0;
-
-        while (row1 != null) {
-            row1 = c1.readLine();
-            counter1 = counter1 + 1;
-        }
-        while (row3 != null) {
-            row3 = c3.readLine();
-            counter2 = counter2 + 1;
-        }
-
-        if (numberToCheck < counter1 || numberToCheck < counter2) {
-            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
-            System.out.println("Assertion failed as it is under the total rows");
-        } else if (numberToCheck > counter1 || numberToCheck > counter2) {
-            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
-            System.out.println("Assertion failed as it is over the total rows");
-        } else {
-            Assertions.assertEquals(counter1, counter2, () -> "Assert Test Pass");
-            Assertions.assertEquals(counter1, numberToCheck, () -> "Assert Test Pass");
-        }
-    }
-
     @Test
     @DisplayName("Check Equal Number of Rows + 1 for one of them")
     static void assertNoRowsPlusOne() throws IOException {
@@ -193,6 +193,8 @@ public class test {
         }
     }
 
+
+    // BlackBox testing System test, checking correct output in output.csv
     @Test
     @DisplayName("Check output AccountID is same")
     public static void assertOutputAccount() throws IOException {
@@ -224,13 +226,12 @@ public class test {
     static void main(String[] args) throws IOException {
 
         /*Testing to check boundary values and equivalence*/
-        test.assertHeaders();
-        test.assertNoRows();
-        test.assertNoRowsMinusOne();
-        test.assertNoRowsPlusOne();
-        test.assertNoSwappingAccount();
-        test.assertNoSwappingID();
-        test.assertOutputAccount();
+//        test.assertHeaders();
+//        test.assertNoRowsMinusOne();
+//        test.assertNoRowsPlusOne();
+//        test.assertNoSwappingAccount();
+//        test.assertNoSwappingID();
+//        test.assertOutputAccount();
         /*After this, main function will be executed.*/
     }
 }
