@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.ValueSource;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.Scanner;
 
 public class test {
     @Test
@@ -222,9 +221,35 @@ public class test {
         }
     }
 
-    public static void testingPurposes() {
-        generateCSV testing = new generateCSV();
-        testing.inp("f1.csv", "f3.csv");
+    @ParameterizedTest
+    @ValueSource(ints = {1, 3, 5, -3, 15, Integer.MAX_VALUE}) // six numbers
+    static void checkRandomRows(int number) throws IOException {
+        ArrayList<String> data = new ArrayList<String>();
+
+        String path = "./";
+        String samp1 = "f1.csv";
+        String samp3 = "f3.csv";
+
+        BufferedReader c1 = new BufferedReader(new FileReader(path + samp1));
+        BufferedReader c3 = new BufferedReader(new FileReader(path + samp3));
+        String row1 = c1.readLine();
+        String row3 = c3.readLine();
+
+        while (row1 != null || row3 != null) {
+            //Append to array list
+            data.add(row1);
+            data.add(row3);
+            row1 = c1.readLine();
+            row3 = c3.readLine();
+        }
+
+        if (number<0 || number >= 1000) {
+            String output = data.get(number);
+            Assertions.assertEquals(output, null, () -> "Assert Test Pass");
+        } else {
+            String output = data.get(number);
+            Assertions.assertNotEquals(output, null, () -> "Assert Test Pass");
+        }
     }
 
 
