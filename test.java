@@ -243,7 +243,7 @@ public class test {
             row3 = c3.readLine();
         }
 
-        if (number<0 || number >= 1000) {
+        if (number<0 || number > 1000) {
             String output = data.get(number);
             Assertions.assertEquals(output, null, () -> "Assert Test Pass");
         } else {

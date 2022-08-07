@@ -43,17 +43,18 @@ However, if we are not able to manually see the number of rows of the csv file t
 With boundary value analysis being ```-1,0,1``` for the lower bound and ```data.length()-1, data.length()
 , data.length()+1``` for the upper bound.</br></br></br>
 
-<b><h3>Unit Tests</h3></b>
+<b><h3>Unit/System/Fuzzing Tests</h3></b>
 `test.java` is the java file with all the unit tests. After running the file, should there be any errors, System.out.println() will print the error message in console.</br>
 
 The unit tests are:</br>
   - `assertNoSwappingID`: These check account IDs are tallied correctly across each row across both csvs
   - `assertNoSwappingAccount`: These check account numbers are tallied correctly across each row across both csvs
   - `assertHeaders`: Check if headers of each column are correct, checks for any difference due to swapping columns
-  - `assertNoRows`: Check if total number of rows are equal in the csv files being used
+  - `checkRandomRows`: Check if total number of rows are equal in the csv files being used
   - `assertNoRowsPlusOne`: Checks if a +1 in row counter will result in false equals to Assertion
   - `assertNoRowsMinusOne`: Checks if a -1 in row counter will result in false equals to Assertion
   - `assertOutputAccount`: Checks if output of the entire file each comparison made had equal account numbers as well as IDs to check if the comparertor is correct.
+  - `fuzzing`: Checks if the random input row exists or not. Inputs will range from 0-2000, checking if an invalid input of lets say 1900 will get something out of the data exists.
 
 
 
