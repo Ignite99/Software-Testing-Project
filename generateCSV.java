@@ -24,7 +24,7 @@ public class generateCSV {
         //Debugging purposes
         Integer counter = 0;
 
-        while (row1 != null) {
+        while (row1 != null && row2 != null) {
             //split rows by comma, making checking of each column value per ID easier
             String[] ind1 = row1.split(",");
             String[] ind2 = row2.split(",");

@@ -26,7 +26,7 @@ public class test {
         String[] inputsRow = { inp3, inp4 };
         genC.writeToFile(inputsRow);
 
-        //different number of rows (This fails cannot read if different number of rows)
+        //different number of rows
         String inp5 = "f1_differentNumRows.csv";
         String inp6 = "f3_differentNumRows.csv";
         String[] inputsNumRows = { inp5, inp6 };
