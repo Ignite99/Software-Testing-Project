@@ -1,28 +1,21 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 
 public class generateCSV {
-    private String input1;
-    private String input2;
-
-    void inp(String input1, String input2) {
-        this.input1 = input1;
-        this.input2 = input2;
-    }
-
-    public static void main(String[] args) throws IOException {
+    public void writeToFile(String[] filenames) throws Exception {
         ArrayList<String> dataToWrite = new ArrayList<String>();
-        generateCSV newInputs = new generateCSV();
 
-        String path = "./";
-        newInputs.inp("f1.csv", "f3.csv");
+        File file1 = new File(filenames[0]);
+        File file2 = new File(filenames[1]);
 
-        String first = newInputs.input1;
-        String second = newInputs.input2;
+        String pathDir = "./";
 
-        BufferedReader c1 = new BufferedReader(new FileReader(path + first));
-        BufferedReader c2 = new BufferedReader(new FileReader(path + second));
+        BufferedReader c1 = new BufferedReader(new FileReader(pathDir + file1));
+        BufferedReader c2 = new BufferedReader(new FileReader(pathDir + file2));
 
         //enter while loop with the column header being first to parse iin
         String row1 = c1.readLine();
@@ -35,7 +28,6 @@ public class generateCSV {
             //split rows by comma, making checking of each column value per ID easier
             String[] ind1 = row1.split(",");
             String[] ind2 = row2.split(",");
-
 
             if (row1 != row2) {
                 // checks if account no. is the same
@@ -60,8 +52,11 @@ public class generateCSV {
 
         }
 
+        String filename1 = filenames[0].substring(0, filenames[0].lastIndexOf("."));;
+        String filename2 = filenames[1].substring(0, filenames[1].lastIndexOf("."));;;
+
         //Output to test.csv
-        FileWriter fw = new FileWriter("output.csv");
+        FileWriter fw = new FileWriter("output_"+filename1+"_"+filename2+".csv");
         Writer output = new BufferedWriter(fw);
 
         //Measures size of array so that it can iterate through all rows and values
@@ -71,5 +66,38 @@ public class generateCSV {
         }
         output.close();
 
+    }
+
+    public static void main(String[] args) throws IOException {
+        try {
+            Scanner inp = new Scanner(System.in);
+
+            boolean exists = false;
+            String inp1 = "";
+            String inp2 = "";
+
+            while (!exists) {
+                System.out.println("Enter first file(will keep looping till a valid file is presented): ");
+                String firstFile = inp.nextLine();
+                inp1 = firstFile;
+                exists = Files.exists(Path.of(firstFile));
+            }
+            System.out.println("file 1 exists");
+            exists = false;
+
+            while (!exists) {
+                System.out.println("Enter second file(will keep looping till a valid file is presented): ");
+                String secondFile = inp.nextLine();
+                inp2 = secondFile;
+                exists = Files.exists(Path.of(secondFile));
+            }
+            System.out.println("file 2 exists");
+
+            String[] inputs = { inp1, inp2 };
+            generateCSV genC = new generateCSV();
+            genC.writeToFile(inputs);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
