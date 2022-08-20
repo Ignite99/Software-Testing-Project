@@ -38,6 +38,7 @@ public class generateCSV {
                         String convertToString1 = String.join(",", ind1);
                         String convertToString2 = String.join(",", ind2);
 
+
                         dataToWrite.add(convertToString1);
                         dataToWrite.add(convertToString2);
                     }
