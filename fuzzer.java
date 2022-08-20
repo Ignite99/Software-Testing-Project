@@ -18,6 +18,7 @@ public class fuzzer {
         int total_rows = rand.nextInt(1000);;
         int count = 0;
 
+        //Changes random row to another value
         int row_to_change1 = rand.nextInt(total_rows);
         int row_to_change2 = rand.nextInt(total_rows);
 
@@ -25,7 +26,7 @@ public class fuzzer {
             row_to_change2 = rand.nextInt(total_rows);
         }
 
-
+        //+1 due to header being present
         int ID_change1 = row_to_change1+1;
         int ID_change2 = row_to_change2+1;
 
@@ -45,6 +46,8 @@ public class fuzzer {
             String[] ind1 = row1.split(",");
 
             if (count == row_to_change1) {
+
+                //Changes currency, balance except for Account number, type and ID
                 String[] arr={"CAD", "EUR", "INR", "GBP", "AUD", "CHF", "HKD", "SEK", "SGD", "USD"};
                 int randomNumber= rand.nextInt(arr.length);
                 String currency = arr[randomNumber];
@@ -78,6 +81,7 @@ public class fuzzer {
                 dataToWrite2.add(convertToString2);
 
             } else if (count == row_to_change2) {
+                //Changes currency, balance except for Account number, type and ID
                 String[] arr={"CAD", "EUR", "INR", "GBP", "AUD", "CHF", "HKD", "SEK", "SGD", "USD"};
                 int randomNumber= rand.nextInt(arr.length);
                 String currency = arr[randomNumber];
@@ -120,6 +124,7 @@ public class fuzzer {
             count++;
         }
 
+        // Writes into 2 fuzzed files
         FileWriter fw1 = new FileWriter("fuzzer_1.csv");
         FileWriter fw2 = new FileWriter("fuzzer_2.csv");
         Writer output1 = new BufferedWriter(fw1);
@@ -136,9 +141,10 @@ public class fuzzer {
         }
         output2.close();
 
+        //ID to match with the answer
         String str_ID1 = Integer.toString(ID_change1);
         String str_ID2 = Integer.toString(ID_change2);
-
+        //Place input files into generateCSV()
         generateCSV genC = new generateCSV();
         String inp1 = "fuzzer_1.csv";
         String inp2 = "fuzzer_2.csv";
@@ -147,6 +153,8 @@ public class fuzzer {
 
         ArrayList<String> dataToCheck = new ArrayList<String>();
 
+        //Get answer file so that can compare which rows were extracted in generateCSV by comparing with the random number
+        //generated at ID_change1 and ID_change2
         BufferedReader ans = new BufferedReader(new FileReader(pathDir + "output_fuzzer_1_fuzzer_2.csv"));
         String ans1 = ans.readLine();
         while (ans1 != null) {
@@ -155,14 +163,16 @@ public class fuzzer {
         }
 
         int size = dataToCheck.size();
+        //Counts the number of similar
         int count_true = 0;
-
-        for (int i = 0; i < size-1; i++) {
+        for (int i = 0; i < size; i++) {
             if (dataToCheck.get(i).toString().contains(str_ID1) || dataToCheck.get(i).toString().contains(str_ID2)) {
                 count_true++;
             }
         }
-        Assertions.assertEquals(3, count_true, () -> "Assert Test Pass");
+
+        //Since only changed 2 rows, should see 4 comparisons output from generateCSV
+        Assertions.assertEquals(4, count_true, () -> "Assert Test Pass");
         System.out.println("Fuzzing Test Succeeded");
     }
 
